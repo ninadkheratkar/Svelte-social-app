@@ -54,7 +54,7 @@ function createStore() {
 					text: "New List",
 					items: []	
 					}
-			])	
+				])	
 		}
 	};
 }
