@@ -6,8 +6,16 @@
 	export let tasks;
 	export let listIdx;
 
-	function drop(){
-		console.log("Dropping!");
+	function drop(e){
+
+		const sourceJson = e.dataTransfer.getData("text/plain");
+
+		const sourceData = JSON.parse(sourceJson);
+
+		console.log("Dropping to list idx:" + listIdx);
+		console.log("Source list idx:" + sourceData.listIdx);
+		console.log("Task Item idx:" + sourceData.taskIdx	);
+
 	}
 </script>
 
@@ -41,8 +49,12 @@
 			</div>
 		</div>
 		<div class="overflow-x-hidden overflow-y-auto with-scrollbar p-2">
-			{#each tasks as task (task.id)}
-				<TaskItem {task} {listIdx} />
+			{#each tasks as task, taskIdx (task.id)}
+				<TaskItem 
+					{task} 
+					{listIdx}
+					{taskIdx} 
+				/>
 			{/each}
 		</div>
 		<button
