@@ -1,4 +1,4 @@
-import { writable, get } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 const DEFAUL_DATA = [
 	{
@@ -37,16 +37,6 @@ function createStore() {
 	return {
 		subscribe,
 		updateTask: (task, listIdx) => {
-			// const taskIdx = get(taskList)[listIdx].items.findIndex(item => item.id === task.id);
-
-			// if (taskIdx > -1) {
-			//   taskList.update(list => {
-			//     list[listIdx].items[taskIdx] = {...task};
-			//     return list;
-			//   })
-			// }
-
-			// -------
 
 			taskList.update((list) => {
 				const taskIdx = list[listIdx].items.findIndex((item) => item.id === task.id);
@@ -57,6 +47,9 @@ function createStore() {
 
 				return list;
 			});
+		},
+		addList: () => {
+			alert("Adding");	
 		}
 	};
 }
