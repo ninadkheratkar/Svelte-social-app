@@ -32,13 +32,13 @@ const DEFAUL_DATA = [
 
 function createStore() {
 	const taskList = writable(DEFAUL_DATA);
-	const { subscribe } = taskList;
+	const { subscribe, update } = taskList;
 
 	return {
 		subscribe,
 		updateTask: (task, listIdx) => {
 
-			taskList.update((list) => {
+			update((list) => {
 				const taskIdx = list[listIdx].items.findIndex((item) => item.id === task.id);
 
 				if (taskIdx > -1) {
@@ -49,7 +49,12 @@ function createStore() {
 			});
 		},
 		addList: () => {
-			alert("Adding");	
+			update((list)=>[...list, {
+					id: new Date().toISOString(),
+					text: "New List",
+					items: []	
+					}
+			])	
 		}
 	};
 }
