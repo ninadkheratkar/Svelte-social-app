@@ -6,11 +6,10 @@
 
 <script>
 	import { taskListStore } from '../../stores/tasks';
-	import Editable from './Editable.svelte';
 	import TaskItem from './TaskItem.svelte';
-	import { flip } from "svelte/animate";
-	// import { send, receive } from "../../transitions";
-	import { fade, fly } from "svelte/transition";	
+	import { flip } from 'svelte/animate';
+	import { fade, fly } from 'svelte/transition';
+	import Editable from './Editable.svelte';
 
 	export let list;
 	export let listIdx;
@@ -27,7 +26,6 @@
 	function updateList(e) {
 		taskListStore.updateList(e.detail.value, listIdx);
 	}
-
 </script>
 
 <div class="flex-it h-full w-80 max-w-sm min-h-full m-2 my-0">
@@ -44,9 +42,11 @@
 			<Editable bind:value on:editCancel={updateList}>
 				<div class="flex-it flex-row">
 					<div class="text-xl text-left font-bold mr-2">{list.text}</div>
-					<button on:click|stopPropagation={() => {
-						taskListStore.removeList(listIdx);
-					}}>
+					<button
+						on:click|stopPropagation={() => {
+							taskListStore.removeList(listIdx);
+						}}
+					>
 						<div class="flex hover:text-red-600 items-center">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -69,24 +69,15 @@
 				</div>
 			</Editable>
 		</div>
-		<div class="overflow-x-hidden overflow-y-auto with-scrollbar p-2">
+		<div class="overflow-x-hidden overflow-y-auto p-2">
 			{#each list.items as task, taskIdx (task.id)}
-			<div
-				out:fade
-				in:fly={{y: 200}}
-				animate:flip
-			>
-				<TaskItem 
-					{task}
-					{listIdx}
-					{taskIdx}
-				/>
-			</div>
+				<div out:fade in:fly={{ y: 200 }} animate:flip>
+					<TaskItem {task} {listIdx} {taskIdx} />
+				</div>
 			{/each}
 		</div>
-		<button 
-			on:click={() => taskListStore.addTask(listIdx)} 
-			class="underline flex p-2">+ Add Task
+		<button on:click={() => taskListStore.addTask(listIdx)} class="underline flex p-2">
+			+ Add Task
 		</button>
 	</div>
 </div>
