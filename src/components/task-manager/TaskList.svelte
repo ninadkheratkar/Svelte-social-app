@@ -1,3 +1,9 @@
+<script context="module">
+	import { writable } from 'svelte/store';
+
+	let listHoverId = writable(null);
+</script>
+
 <script>
 	import { taskListStore } from '../../stores/tasks';
 	import TaskItem from './TaskItem.svelte';
@@ -5,29 +11,22 @@
 	export let list;
 	export let listIdx;
 
-	let listHoverId = null
-	function drop(e){
-
-		const sourceJson = e.dataTransfer.getData("text/plain");
+	function drop(e) {
+		const sourceJson = e.dataTransfer.getData('text/plain');
 		const sourceData = JSON.parse(sourceJson);
 		taskListStore.moveTask(sourceData, listIdx);
-
-
+		listHoverId.set(null);
 	}
 </script>
 
-<div class="text-white">
-	{listHoverId}
-</div>
-
 <div class="flex-it h-full w-80 max-w-sm min-h-full m-2 my-0">
-	<div 
-		on:dragenter={()=>{
-			listHoverId = list.id; 
+	<div
+		on:dragenter={() => {
+			listHoverId.set(list.id);
 		}}
-		on:dragover|preventDefault = {() => {}}	
-		on:drop = {drop}
-		class:hovering={list.id === listHoverId}
+		on:dragover|preventDefault={() => {}}
+		on:drop={drop}
+		class:hovering={list.id === $listHoverId}
 		class="bg-slate-400 flex-it rounded-xl max-h-full border-2 border-gray-500"
 	>
 		<div class="flex-it m-3">
@@ -57,20 +56,19 @@
 			{#each list.items as task, taskIdx (task.id)}
 				<TaskItem 
 					{task} 
-					{listIdx}
+					{listIdx} 
 					{taskIdx} 
 				/>
 			{/each}
 		</div>
-		<button
-			on:click={() => taskListStore.addTask(listIdx)} 
-			class="underline flex p-2"> + Add Task 
+		<button on:click={() => taskListStore.addTask(listIdx)} class="underline flex p-2">
+			+ Add Task
 		</button>
 	</div>
 </div>
 
 <style>
 	.hovering {
-	  border: 2px solid orange;
+		border: 2px solid orange;
 	}
 </style>
