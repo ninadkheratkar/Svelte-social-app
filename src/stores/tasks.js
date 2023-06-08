@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-const DEFAUL_DATA = [
+const DEFAULT_DATA = [
 	{
 		id: 'l-1',
 		text: 'List 1',
@@ -31,7 +31,11 @@ const DEFAUL_DATA = [
 ];
 
 function createStore() {
-	const taskList = writable(DEFAUL_DATA);
+	// const taskList = writable(DEFAUL_DATA);
+	const storedList = localStorage.getItem("task-manager-store");
+	const _taskList = storedList ? JSON.parse(storedList) : DEFAULT_DATA;
+  
+	const taskList = writable(_taskList);
 	const { subscribe, update } = taskList;
 
 	return {
