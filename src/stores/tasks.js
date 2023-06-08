@@ -31,17 +31,15 @@ const DEFAULT_DATA = [
 ];
 
 function createStore() {
-	// const taskList = writable(DEFAUL_DATA);
-	const storedList = localStorage.getItem("task-manager-store");
+	const storedList = localStorage.getItem('task-manager-store');
 	const _taskList = storedList ? JSON.parse(storedList) : DEFAULT_DATA;
-  
+
 	const taskList = writable(_taskList);
 	const { subscribe, update } = taskList;
 
 	return {
 		subscribe,
 		updateTask: (task, listIdx) => {
-
 			update((list) => {
 				const taskIdx = list[listIdx].items.findIndex((item) => item.id === task.id);
 
@@ -53,35 +51,47 @@ function createStore() {
 			});
 		},
 		addList: () => {
-			update((list)=>[...list, {
+			update((list) => [
+				...list,
+				{
 					id: new Date().toISOString(),
-					text: "New List",
-					items: []	
-					}
-				])	
+					text: 'New List',
+					items: []
+				}
+			]);
 		},
 		addTask: (listIdx) => {
-			update((list)=>{
-				const {items} = list[listIdx];
+			update((list) => {
+				const { items } = list[listIdx];
+
 				list[listIdx].items = [
-					...items, {
+					...items,
+					{
 						id: new Date().toISOString(),
-						text: "what to do ?"
+						text: 'What to do?'
 					}
 				];
 
 				return list;
-			})
+			});
 		},
-		moveTask: (sourceData, moveToListIdx) =>{
-
-			update(list => {
-				const[task] = list[sourceData.listIdx].items.splice(sourceData.taskIdx, 1);
+		moveTask: (sourceData, moveToListIdx) => {
+			update((list) => {
+				const [task] = list[sourceData.listIdx].items.splice(sourceData.taskIdx, 1);
 				list[moveToListIdx].items.push(task);
 				return list;
-			})
+			});
+		},
+		removeTask: () => {
+			alert('Removing task!');
 		}
 	};
 }
 
 export const taskListStore = createStore();
+
+taskListStore.subscribe((list) => {
+	if (list) {
+		localStorage.setItem('task-manager-store', JSON.stringify(list));
+	}
+});
