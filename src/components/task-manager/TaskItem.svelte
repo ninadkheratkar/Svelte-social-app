@@ -12,10 +12,9 @@
 		taskListStore.updateTask(
 			{
 				id: task.id,
-				text: event.detail.taskText
-			},
-			listIdx
-		);
+				text: event.detail.value
+			}, 
+		listIdx)
 	}
 
 	function dragStart(e) {
