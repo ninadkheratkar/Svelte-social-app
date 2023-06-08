@@ -5,7 +5,7 @@
 	export let list;
 	export let listIdx;
 
-
+	let listHoverId = null
 	function drop(e){
 
 		const sourceJson = e.dataTransfer.getData("text/plain");
@@ -16,8 +16,15 @@
 	}
 </script>
 
+<div class="text-white">
+	{listHoverId}
+</div>
+
 <div class="flex-it h-full w-80 max-w-sm min-h-full m-2 my-0">
 	<div 
+		on:dragenter={()=>{
+			listHoverId = list.id; 
+		}}
 		on:dragover|preventDefault = {() => {}}	
 		on:drop = {drop}
 		class="bg-slate-400 flex-it rounded-xl max-h-full border-2 border-gray-500"
