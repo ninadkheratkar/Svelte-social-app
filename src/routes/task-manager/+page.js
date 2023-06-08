@@ -1,8 +1,11 @@
+
 export const ssr = false;
 
 export function load() {
-    return {
-        appName: "Task Manager",
-        content: "Board"
-    }
+  // fetch data from API/Database ...
+  console.log("Calling Load!");
+  return {
+    appName: "Task Manager",
+    content: "Board"
+  }
 }

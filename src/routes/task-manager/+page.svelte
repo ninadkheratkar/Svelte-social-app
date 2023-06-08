@@ -1,4 +1,5 @@
 <script>
+	console.log('Calling Page!');
 	import TaskList from '../../components/task-manager/TaskList.svelte';
 	import { taskListStore } from '../../stores/tasks';
 
@@ -9,7 +10,7 @@
 	<div class="text-white text-2xl mb-6">
 		{data.appName} - {data.content}
 	</div>
-	<button 
+	<button
 		on:click={taskListStore.addList}
 		class="text-xl mb-3 text-white font-bold cursor-pointer hover:underline flex items-start"
 	>
